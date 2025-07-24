@@ -130,44 +130,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Email functionality using EmailJS
+    // Initialize EmailJS
+    emailjs.init("tZZXaJBv1isRnAMYa"); // You'll need to replace this with your actual public key
+    
     // Contact form handling
-    const contactForm = document.querySelector('.contact-form');
+    const contactForm = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+    const submitBtn = document.getElementById('submit-btn');
+    
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Show loading state
+            submitBtn.classList.add('loading');
+            formMessage.style.display = 'none';
+            
             // Get form data
-            const formData = new FormData(this);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const message = formData.get('message');
+            const formData = new FormData(contactForm);
+            const templateParams = {
+                from_name: formData.get('name'),
+                from_email: formData.get('email'),
+                message: formData.get('message'),
+                to_email: 'Elminjoh@gmail.com' // Your email address
+            };
             
-            // Simple validation
-            if (!name || !email || !message) {
-                showNotification('Please fill in all fields.', 'error');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showNotification('Please enter a valid email address.', 'error');
-                return;
-            }
-            
-            // Simulate form submission
-            const submitBtn = this.querySelector('.btn-primary');
-            const originalText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-                this.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 2000);
+            // Send email using EmailJS
+            emailjs.send('service_ot4m2vo', 'template_m1hj00j', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully:', response);
+                    showMessage('Message sent successfully! I\'ll get back to you soon.', 'success');
+                    contactForm.reset();
+                })
+                .catch(function(error) {
+                    console.error('Email sending failed:', error);
+                    showMessage('Failed to send message. Please try again or contact me directly.', 'error');
+                })
+                .finally(function() {
+                    submitBtn.classList.remove('loading');
+                });
         });
+    }
+    
+    function showMessage(text, type) {
+        formMessage.textContent = text;
+        formMessage.className = `form-message ${type}`;
+        formMessage.style.display = 'block';
+        
+        // Hide message after 5 seconds
+        setTimeout(() => {
+            formMessage.style.display = 'none';
+        }, 5000);
     }
 
     // Email validation

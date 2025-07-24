@@ -335,6 +335,205 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
 }
 
+/* Activities Section */
+.activities {
+    padding: 5rem 0;
+    background-color: var(--background-alt);
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.activity-card {
+    background: var(--background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.activity-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.activity-title h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+}
+
+.activity-organization {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.activity-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.activity-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--background-alt);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.highlight-item i {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+}
+
+.activity-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Timeline Styles */
+.recent-activities {
+    margin-top: 4rem;
+}
+
+.timeline-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: var(--primary-color);
+    opacity: 0.3;
+}
+
+.timeline-item {
+    display: flex;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.timeline-item:nth-child(odd) {
+    flex-direction: row;
+}
+
+.timeline-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.timeline-date {
+    flex: 0 0 100px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--primary-color);
+    background: var(--background);
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+}
+
+.timeline-content {
+    flex: 1;
+    background: var(--background);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 0 1rem;
+    border: 1px solid var(--border-color);
+}
+
+.timeline-content h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.timeline-content p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
 /* Projects Section */
 .projects {
     padding: 5rem 0;
@@ -531,6 +730,45 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 120px;
 }
 
+/* Form message styles */
+.form-message {
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.form-message.success {
+    background-color: #D1FAE5;
+    color: #065F46;
+    border: 1px solid #34D399;
+}
+
+.form-message.error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border: 1px solid #F87171;
+}
+
+/* Button loading state */
+.btn .btn-loading {
+    display: none;
+}
+
+.btn.loading .btn-text {
+    display: none;
+}
+
+.btn.loading .btn-loading {
+    display: inline-block;
+}
+
+.btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
 /* Footer */
 .footer {
     padding: 2rem 0;
@@ -615,6 +853,48 @@ h1, h2, h3, h4, h5, h6 {
         gap: 2rem;
     }
 
+    .activities-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .activity-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .activity-highlights {
+        justify-content: center;
+    }
+
+    .activity-stats {
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .timeline::before {
+        left: 20px;
+    }
+
+    .timeline-item {
+        flex-direction: row !important;
+        padding-left: 60px;
+    }
+
+    .timeline-date {
+        position: absolute;
+        left: 0;
+        width: 40px;
+        font-size: 0.8rem;
+        padding: 0.3rem;
+    }
+
+    .timeline-content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
     .container {
         padding: 0 1rem;
     }
@@ -649,6 +929,29 @@ h1, h2, h3, h4, h5, h6 {
 
     .tech-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .activity-card {
+        padding: 1.5rem;
+    }
+
+    .activity-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .activity-title h3 {
+        font-size: 1.1rem;
+    }
+
+    .highlight-item {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .timeline-title {
+        font-size: 1.5rem;
     }
 }
 
