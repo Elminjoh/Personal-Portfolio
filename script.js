@@ -142,22 +142,42 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
+            // Get form data
+            const formData = new FormData(contactForm);
+            const name = (formData.get('name') || '').trim();
+            const email = (formData.get('email') || '').trim();
+            const message = (formData.get('message') || '').trim();
+
+            // Basic validation before sending
+            if (!name || !email || !message) {
+                showMessage('Please fill in your name, email and message.', 'error');
+                return;
+            }
+            if (!isValidEmail(email)) {
+                showMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+
             // Show loading state
             submitBtn.classList.add('loading');
             formMessage.style.display = 'none';
-            
-            // Get form data
-            const formData = new FormData(contactForm);
+
+            // Include several common EmailJS variable names so the template
+            // populates correctly regardless of how it was set up.
             const templateParams = {
-                from_name: formData.get('name'),
-                from_email: formData.get('email'),
-                message: formData.get('message'),
+                from_name: name,
+                from_email: email,
+                name: name,
+                email: email,
+                reply_to: email,
+                title: `New portfolio message from ${name}`,
+                message: message,
                 to_email: 'Elminjoh@gmail.com' // Your email address
             };
-            
+
             // Send email using EmailJS
-            emailjs.send('service_ot4m2vo', 'template_m1hj00j', templateParams)
+            emailjs.send('service_huqsnyl', 'template_m1hj00j', templateParams)
                 .then(function(response) {
                     console.log('Email sent successfully:', response);
                     showMessage('Message sent successfully! I\'ll get back to you soon.', 'success');
@@ -165,7 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(function(error) {
                     console.error('Email sending failed:', error);
-                    showMessage('Failed to send message. Please try again or contact me directly.', 'error');
+                    const detail = (error && (error.text || error.message)) ? ` (${error.text || error.message})` : '';
+                    showMessage(`Failed to send message. Please email me directly at Elminjoh@gmail.com.${detail}`, 'error');
                 })
                 .finally(function() {
                     submitBtn.classList.remove('loading');
