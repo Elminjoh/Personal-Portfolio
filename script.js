@@ -386,3 +386,89 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Portfolio loaded successfully! 🚀');
 });
+
+// Lightbox gallery for featured projects
+document.addEventListener('DOMContentLoaded', function() {
+    const galleries = {
+        elmiviceai: [
+            { src: 'images/evai-landing.jpg', caption: 'ElmiViceAI landing page — AI solutions that grow your business' },
+            { src: 'images/elmiviceai.jpg', caption: 'Admin dashboard — conversations, bookings and revenue at a glance' },
+            { src: 'images/evai-branding.jpg', caption: 'Widget branding studio with a live chat preview' },
+            { src: 'images/evai-chatbot.jpg', caption: 'The AI chatbot widget in action' },
+            { src: 'images/evai-embed.jpg', caption: 'One-line embed code to add the chatbot to any website' }
+        ],
+        ballonrank: [
+            { src: 'images/ballonrank.jpg', caption: 'Player ranking card with an ID-verified profile' },
+            { src: 'images/ballonrank-score.jpg', caption: 'Score breakdown, measurables and highlight reels' },
+            { src: 'images/ballonrank-projection.jpg', caption: 'AI-projected next score, coach assessments and injury risk' },
+            { src: 'images/ballonrank-leagues.jpg', caption: 'Community leagues — create one and compete with your mates' },
+            { src: 'images/ballonrank-sessions.jpg', caption: 'Open play & training sessions near you' },
+            { src: 'images/ballonrank-scout.jpg', caption: 'Scout dashboard — search, watchlists and shortlists' }
+        ]
+    };
+
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    const imgEl = document.getElementById('lightbox-img');
+    const captionEl = document.getElementById('lightbox-caption');
+    const counterEl = document.getElementById('lightbox-counter');
+    const closeBtn = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+
+    let currentSet = [];
+    let currentIndex = 0;
+
+    function render() {
+        const item = currentSet[currentIndex];
+        imgEl.src = item.src;
+        imgEl.alt = item.caption;
+        captionEl.textContent = item.caption;
+        counterEl.textContent = `${currentIndex + 1} / ${currentSet.length}`;
+    }
+
+    function openGallery(key) {
+        currentSet = galleries[key] || [];
+        if (!currentSet.length) return;
+        currentIndex = 0;
+        render();
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeGallery() {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    function next() { currentIndex = (currentIndex + 1) % currentSet.length; render(); }
+    function prev() { currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length; render(); }
+
+    // Buttons that open a gallery
+    document.querySelectorAll('.gallery-trigger').forEach(btn => {
+        btn.addEventListener('click', () => openGallery(btn.getAttribute('data-gallery')));
+    });
+
+    // Clicking a featured project image also opens its gallery
+    document.querySelectorAll('.project-card--featured').forEach(card => {
+        const trigger = card.querySelector('.gallery-trigger');
+        const img = card.querySelector('.project-image--tall img');
+        if (trigger && img) {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', () => openGallery(trigger.getAttribute('data-gallery')));
+        }
+    });
+
+    closeBtn.addEventListener('click', closeGallery);
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeGallery(); });
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeGallery();
+        else if (e.key === 'ArrowRight') next();
+        else if (e.key === 'ArrowLeft') prev();
+    });
+});
